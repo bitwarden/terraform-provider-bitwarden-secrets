@@ -19,13 +19,13 @@ func TestAccProviderExpectErrorOnMissingApiUrlInProviderConfigString(t *testing.
 		PreCheck:                 preCheckUnsetAllEnvVars,
 		Steps: []resource.TestStep{
 			{
-				Config: `provider "bitwarden-sm" {
+				Config: `provider "bitwarden-secrets" {
                             identity_url = "https://identity.example.com"
                             access_token = "mock_access_token"
                             organization_id = "` + validProjectUUID + `"
                         }
 
-                        data "bitwarden-sm_projects" "projects" {}`,
+                        data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing URI for Bitwarden Secrets Manager API endpoint"),
 			},
 		},
@@ -38,13 +38,13 @@ func TestAccProviderExpectErrorOnMissingIdentityUrlInProviderConfigString(t *tes
 		PreCheck:                 preCheckUnsetAllEnvVars,
 		Steps: []resource.TestStep{
 			{
-				Config: `provider "bitwarden-sm" {
+				Config: `provider "bitwarden-secrets" {
                             api_url      = "https://api.example.com"
                             access_token = "mock_access_token"
                             organization_id = "` + validProjectUUID + `"
                         }
 
-                        data "bitwarden-sm_projects" "projects" {}`,
+                        data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing URI for Bitwarden Secrets Manager IDENTITY endpoint"),
 			},
 		},
@@ -57,12 +57,12 @@ func TestAccProviderExpectErrorOnMissingApiAndIdentityUrlInProviderConfigString1
 		PreCheck:                 preCheckUnsetAllEnvVars,
 		Steps: []resource.TestStep{
 			{
-				Config: `provider "bitwarden-sm" {
+				Config: `provider "bitwarden-secrets" {
                             access_token = "mock_access_token"
                             organization_id = "` + validProjectUUID + `"
                         }
 
-                        data "bitwarden-sm_projects" "projects" {}`,
+                        data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing URI for Bitwarden Secrets Manager API endpoint"),
 			},
 		},
@@ -75,12 +75,12 @@ func TestAccProviderExpectErrorOnMissingApiAndIdentityUrlInProviderConfigString2
 		PreCheck:                 preCheckUnsetAllEnvVars,
 		Steps: []resource.TestStep{
 			{
-				Config: `provider "bitwarden-sm" {
+				Config: `provider "bitwarden-secrets" {
                             access_token = "mock_access_token"
                             organization_id = "` + validProjectUUID + `"
                         }
 
-                        data "bitwarden-sm_projects" "projects" {}`,
+                        data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing URI for Bitwarden Secrets Manager IDENTITY endpoint"),
 			},
 		},
@@ -93,13 +93,13 @@ func TestAccProviderExpectErrorOnMissingAccessTokenInProviderConfigString(t *tes
 		PreCheck:                 preCheckUnsetAllEnvVars,
 		Steps: []resource.TestStep{
 			{
-				Config: `provider "bitwarden-sm" {
+				Config: `provider "bitwarden-secrets" {
                             api_url      = "https://api.example.com"
                             identity_url = "https://identity.example.com"
                             organization_id = "` + validProjectUUID + `"
                         }
 
-                        data "bitwarden-sm_projects" "projects" {}`,
+                        data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing Bitwarden Secrets Manager Access Token"),
 			},
 		},
@@ -112,13 +112,13 @@ func TestAccProviderExpectErrorOnMissingOrganizationIdInProviderConfigString(t *
 		PreCheck:                 preCheckUnsetAllEnvVars,
 		Steps: []resource.TestStep{
 			{
-				Config: `provider "bitwarden-sm" {
+				Config: `provider "bitwarden-secrets" {
                             api_url      = "https://api.example.com"
                             identity_url = "https://identity.example.com"
                             access_token = "mock_access_token"
                         }
 
-                        data "bitwarden-sm_projects" "projects" {}`,
+                        data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing Bitwarden Secrets Manager Organization ID"),
 			},
 		},
@@ -131,25 +131,25 @@ func TestAccProviderExpectErrorOnOrganizationIdNotAValidUUID(t *testing.T) {
 		PreCheck:                 preCheckUnsetAllEnvVars,
 		Steps: []resource.TestStep{
 			{
-				Config: `provider "bitwarden-sm" {
+				Config: `provider "bitwarden-secrets" {
                             api_url         = "https://api.example.com"
                             identity_url    = "https://identity.example.com"
                             access_token    = "mock_access_token"
                             organization_id = "` + invalidProjectUUID1 + `"
                         }
 
-                        data "bitwarden-sm_projects" "projects" {}`,
+                        data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("string attribute not a valid UUID"),
 			},
 			{
-				Config: `provider "bitwarden-sm" {
+				Config: `provider "bitwarden-secrets" {
                             api_url         = "https://api.example.com"
                             identity_url    = "https://identity.example.com"
                             access_token    = "mock_access_token"
                             organization_id = "` + invalidProjectUUID2 + `"
                         }
 
-                        data "bitwarden-sm_projects" "projects" {}`,
+                        data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("string attribute not a valid UUID"),
 			},
 		},
@@ -177,7 +177,7 @@ func TestAccProviderExpectErrorOnMissingApiUrlInEnvVars(t *testing.T) {
 		},
 		Steps: []resource.TestStep{
 			{
-				Config:      `data "bitwarden-sm_projects" "projects" {}`,
+				Config:      `data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing URI for Bitwarden Secrets Manager API endpoint"),
 			},
 		},
@@ -206,7 +206,7 @@ func TestAccProviderExpectErrorOnMissingIdentityUrlInEnvVars(t *testing.T) {
 		},
 		Steps: []resource.TestStep{
 			{
-				Config:      `data "bitwarden-sm_projects" "projects" {}`,
+				Config:      `data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing URI for Bitwarden Secrets Manager IDENTITY endpoint"),
 			},
 		},
@@ -231,7 +231,7 @@ func TestAccProviderExpectErrorOnMissingApiAndIdentityUrlInEnvVars(t *testing.T)
 		},
 		Steps: []resource.TestStep{
 			{
-				Config:      `data "bitwarden-sm_projects" "projects" {}`,
+				Config:      `data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing URI for Bitwarden Secrets Manager API endpoint"),
 			},
 		},
@@ -260,7 +260,7 @@ func TestAccProviderExpectErrorOnMissingAccessTokenInEnvVars(t *testing.T) {
 		},
 		Steps: []resource.TestStep{
 			{
-				Config:      `data "bitwarden-sm_projects" "projects" {}`,
+				Config:      `data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing Bitwarden Secrets Manager Access Token"),
 			},
 		},
@@ -289,7 +289,7 @@ func TestAccProviderExpectErrorOnMissingOrganizationIdInEnvVars(t *testing.T) {
 		},
 		Steps: []resource.TestStep{
 			{
-				Config:      `data "bitwarden-sm_projects" "projects" {}`,
+				Config:      `data "bitwarden-secrets_projects" "projects" {}`,
 				ExpectError: regexp.MustCompile("Missing Bitwarden Secrets Manager Organization ID"),
 			},
 		},
@@ -304,7 +304,7 @@ func TestAccProviderConfigurationValid(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                        data "bitwarden-sm_projects" "projects" {}`,
+                        data "bitwarden-secrets_projects" "projects" {}`,
 			},
 		},
 	})

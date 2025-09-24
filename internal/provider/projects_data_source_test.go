@@ -15,9 +15,9 @@ import (
 //        Steps: []resource.TestStep{
 //            {
 //                Config: buildProviderConfigFromEnvFile("../../.env.local.no.access") + `
-//                       data "bitwarden-sm_projects" "test" {}`,
+//                       data "bitwarden-secrets_projects" "test" {}`,
 //                Check: resource.ComposeTestCheckFunc(
-//                    resource.TestCheckResourceAttr("data.bitwarden-sm_projects.test", "projects.#", "0"),
+//                    resource.TestCheckResourceAttr("data.bitwarden-secrets_projects.test", "projects.#", "0"),
 //                ),
 //            },
 //        },
@@ -43,7 +43,7 @@ func TestAccDatasourceProjectsListOneProject(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                       data "bitwarden-sm_projects" "test" {}`,
+                       data "bitwarden-secrets_projects" "test" {}`,
 				Check: resource.ComposeTestCheckFunc(
 					func(s *terraform.State) error {
 						return testAccCheckIfProjectExistsInOutput(projectId, projectName)(s)
@@ -88,7 +88,7 @@ func TestAccDatasourceProjectsListTwoProject(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                       data "bitwarden-sm_projects" "test" {}`,
+                       data "bitwarden-secrets_projects" "test" {}`,
 				Check: resource.ComposeTestCheckFunc(
 					func(s *terraform.State) error {
 						return testAccCheckIfProjectExistsInOutput(projectId1, projectName1)(s)
@@ -112,9 +112,9 @@ func TestAccDatasourceProjectsListTwoProject(t *testing.T) {
 func testAccCheckIfProjectExistsInOutput(projectId, projectName string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		// retrieve the resource by name from state
-		rs, ok := s.RootModule().Resources["data.bitwarden-sm_projects.test"]
+		rs, ok := s.RootModule().Resources["data.bitwarden-secrets_projects.test"]
 		if !ok {
-			return fmt.Errorf("not found: %s", "data.bitwarden-sm_projects.test")
+			return fmt.Errorf("not found: %s", "data.bitwarden-secrets_projects.test")
 		}
 		attributes := rs.Primary.Attributes
 		numberOfProjects, err := strconv.Atoi(attributes["projects.#"])

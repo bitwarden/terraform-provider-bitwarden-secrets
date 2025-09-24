@@ -14,9 +14,9 @@ func TestAccDatasourceListSecretsZeroSecretsMachineAccountWithNoAccess(t *testin
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t, "../../.env.local.no.access") + `
-                       data "bitwarden-sm_list_secrets" "test" {}`,
+                       data "bitwarden-secrets_list_secrets" "test" {}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("data.bitwarden-sm_list_secrets.test", "secrets.#", "0"),
+					resource.TestCheckResourceAttr("data.bitwarden-secrets_list_secrets.test", "secrets.#", "0"),
 				),
 			},
 		},
@@ -49,7 +49,7 @@ func TestAccDatasourceListSecretsOneSecret(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                       data "bitwarden-sm_list_secrets" "test" {}`,
+                       data "bitwarden-secrets_list_secrets" "test" {}`,
 				Check: resource.ComposeTestCheckFunc(
 					func(s *terraform.State) error {
 						return testAccCheckIfSecretExistsInOutput(secretId, secretKey)(s)
@@ -104,7 +104,7 @@ func TestAccDatasourceListSecretsTwoSecrets(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                       data "bitwarden-sm_list_secrets" "test" {}`,
+                       data "bitwarden-secrets_list_secrets" "test" {}`,
 				Check: resource.ComposeTestCheckFunc(
 					func(s *terraform.State) error {
 						return testAccCheckIfSecretExistsInOutput(secretId1, secretKey1)(s)
@@ -132,9 +132,9 @@ func TestAccDatasourceListSecretsTwoSecrets(t *testing.T) {
 func testAccCheckIfSecretExistsInOutput(secretId, secretKey string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		// retrieve the resource by name from state
-		rs, ok := s.RootModule().Resources["data.bitwarden-sm_list_secrets.test"]
+		rs, ok := s.RootModule().Resources["data.bitwarden-secrets_list_secrets.test"]
 		if !ok {
-			return fmt.Errorf("not found: %s", "data.bitwarden-sm_secrets.test")
+			return fmt.Errorf("not found: %s", "data.bitwarden-secrets_secrets.test")
 		}
 		attributes := rs.Primary.Attributes
 		numberOfSecrets, err := strconv.Atoi(attributes["secrets.#"])

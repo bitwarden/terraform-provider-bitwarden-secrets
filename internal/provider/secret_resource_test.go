@@ -17,7 +17,7 @@ func TestAccResourceSecretExpectErrorOnMissingKey(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                       resource "bitwarden-sm_secret" "test" {
+                       resource "bitwarden-secrets_secret" "test" {
                                 value          = "mock-value"
                             }`,
 				ExpectError: regexp.MustCompile("The argument \"key\" is required, but no definition was found."),
@@ -56,11 +56,11 @@ func TestAccResourceSecretCreateSecretWithExplicitValue(t *testing.T) {
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "value", secretValue),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", secretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", secretValue),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", secretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 				),
 			},
 		},
@@ -102,14 +102,14 @@ func TestAccResourceSecretCreateSecretWithDefaultGeneratorConfig(t *testing.T) {
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", secretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", secretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 					func(s *terraform.State) error {
-						rs, ok := s.RootModule().Resources["bitwarden-sm_secret.test"]
+						rs, ok := s.RootModule().Resources["bitwarden-secrets_secret.test"]
 						if !ok {
-							return fmt.Errorf("not found: %s", "bitwarden-sm_secret.test")
+							return fmt.Errorf("not found: %s", "bitwarden-secrets_secret.test")
 						}
 
 						attributes := rs.Primary.Attributes
@@ -173,14 +173,14 @@ func TestAccResourceSecretCreateSecretWithCustomGeneratorConfig(t *testing.T) {
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", secretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", secretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 					func(s *terraform.State) error {
-						rs, ok := s.RootModule().Resources["bitwarden-sm_secret.test"]
+						rs, ok := s.RootModule().Resources["bitwarden-secrets_secret.test"]
 						if !ok {
-							return fmt.Errorf("not found: %s", "bitwarden-sm_secret.test")
+							return fmt.Errorf("not found: %s", "bitwarden-secrets_secret.test")
 						}
 
 						attributes := rs.Primary.Attributes
@@ -343,55 +343,55 @@ func TestAccResourceSecretUpdateSecretWithExplicitValue(t *testing.T) {
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "value", secretValue),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", secretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", secretValue),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", secretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 				),
 			},
 			{
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config2),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "value", updatedSecretValue),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", secretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", updatedSecretValue),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", secretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 				),
 			},
 			{
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config3),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "value", updatedSecretValue),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", updatedSecretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", updatedSecretValue),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", updatedSecretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 				),
 			},
 			{
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config4),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", updatedSecretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "value", updatedSecretValue),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", updatedSecretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", updatedSecretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", updatedSecretValue),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", updatedSecretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 				),
 			},
 			{
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config5),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", updatedSecretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "value", updatedSecretValue),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", updatedSecretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", updatedProject.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", updatedSecretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", updatedSecretValue),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", updatedSecretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", updatedProject.ID),
 				),
 			},
 		},
@@ -440,15 +440,15 @@ func TestAccResourceSecretDeleteSecretWithExplicitValue(t *testing.T) {
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "value", secretValue),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", secretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", secretValue),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", secretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 					func(s *terraform.State) error {
-						rs, ok := s.RootModule().Resources["bitwarden-sm_secret.test"]
+						rs, ok := s.RootModule().Resources["bitwarden-secrets_secret.test"]
 						if !ok {
-							return fmt.Errorf("not found: %s", "bitwarden-sm_secret.test")
+							return fmt.Errorf("not found: %s", "bitwarden-secrets_secret.test")
 						}
 						secretID = rs.Primary.ID
 						return nil
@@ -521,17 +521,17 @@ func TestAccResourceSecretImportSecret(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				ResourceName:  "bitwarden-sm_secret.test",
+				ResourceName:  "bitwarden-secrets_secret.test",
 				ImportState:   true,
 				ImportStateId: secretId,
 				Config: buildProviderConfigFromEnvFile(t) + `
-                                    resource "bitwarden-sm_secret" "test" {}`,
+                                    resource "bitwarden-secrets_secret" "test" {}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "value", secretValue),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", secretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", secretValue),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", secretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 				),
 			},
 			{
@@ -591,17 +591,17 @@ func TestAccResourceSecretDynamicSecret(t *testing.T) {
 					buildSecretResourceConfig(config),
 				Check: resource.ComposeTestCheckFunc(
 					// The following checks validate that the secret was creates successfully
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttrSet("bitwarden-sm_secret.test", "value"),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", secretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttrSet("bitwarden-secrets_secret.test", "value"),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", secretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 
 					// In this "check" is used to update the secret value outside terraform.
 					func(s *terraform.State) error {
-						rs, ok := s.RootModule().Resources["bitwarden-sm_secret.test"]
+						rs, ok := s.RootModule().Resources["bitwarden-secrets_secret.test"]
 						if !ok {
-							return fmt.Errorf("not found: %s", "bitwarden-sm_secret.test")
+							return fmt.Errorf("not found: %s", "bitwarden-secrets_secret.test")
 						}
 						_, updateErr := bitwardenClient.Secrets().Update(
 							rs.Primary.ID,
@@ -622,15 +622,15 @@ func TestAccResourceSecretDynamicSecret(t *testing.T) {
 				// The generated config in this step is the same as before. However, the secret value changed outside
 				// terraform. But, since the provider supports Dynamic Secrets, the updated secret value does not
 				// create a new plan: `ExpectNonEmptyPlan: false` and the value inside the terraform state has
-				// the expected value: `TestCheckResourceAttr("bitwarden-sm_secret.test", "value", updatedSecretValue)`
+				// the expected value: `TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", updatedSecretValue)`
 				Config: buildProviderConfigFromEnvFile(t) +
 					buildSecretResourceConfig(config),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "key", secretKey),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "value", updatedSecretValue),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "note", secretNote),
-					resource.TestCheckResourceAttr("bitwarden-sm_secret.test", "project_id", project.ID),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "key", secretKey),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "value", updatedSecretValue),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "note", secretNote),
+					resource.TestCheckResourceAttr("bitwarden-secrets_secret.test", "project_id", project.ID),
 				),
 				ExpectNonEmptyPlan: false,
 			},
