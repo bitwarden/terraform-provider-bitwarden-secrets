@@ -42,8 +42,8 @@ func TestAccConcurrency(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                       data "bitwarden-sm_list_secrets" "test" {}
-					   data "bitwarden-sm_projects" "test" {}`,
+                       data "bitwarden-secrets_list_secrets" "test" {}
+					   data "bitwarden-secrets_projects" "test" {}`,
 				Check: resource.ComposeTestCheckFunc(
 					func(s *terraform.State) error {
 						return testAccCheckIfSecretExistsInOutput(secret1.ID, secret1.Key)(s)

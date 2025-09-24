@@ -21,7 +21,7 @@ var (
 	// CLI command executed to create a provider server to which the CLI can
 	// reattach.
 	testAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServer, error){
-		"bitwarden-sm": providerserver.NewProtocol6WithError(New("test")()),
+		"bitwarden-secrets": providerserver.NewProtocol6WithError(New("test")()),
 	}
 
 	seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -146,7 +146,7 @@ func buildProviderConfigFromEnvFile(t *testing.T, filePath ...string) string {
 	organizationId := envMap[organizationIDKey]
 
 	providerConfig := fmt.Sprintf(`
-        provider "bitwarden-sm" {
+        provider "bitwarden-secrets" {
             api_url = "%s"
             identity_url = "%s"
             access_token = "%s"
@@ -170,7 +170,7 @@ type SecretResourceConfig struct {
 func buildSecretResourceConfig(config SecretResourceConfig) string {
 	configString := `
 
-	resource "bitwarden-sm_secret" "test" {`
+	resource "bitwarden-secrets_secret" "test" {`
 	if config.key.ValueString() != "" {
 		configString += fmt.Sprintf(`
 			key = "%s"`, config.key.ValueString())

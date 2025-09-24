@@ -18,7 +18,7 @@ func TestAccDatasourceSecretExpectErrorOnMissingSecretId(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                       data "bitwarden-sm_secret" "test" {}`,
+                       data "bitwarden-secrets_secret" "test" {}`,
 				ExpectError: regexp.MustCompile("The argument \"id\" is required, but no definition was found"),
 			},
 		},
@@ -31,14 +31,14 @@ func TestAccDatasourceSecretExpectErrorOnInvalidSecretId(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                        data "bitwarden-sm_secret" "test" {
+                        data "bitwarden-secrets_secret" "test" {
                             id = "` + invalidSecretUUID1 + `"
                         }`,
 				ExpectError: regexp.MustCompile("string attribute not a valid UUID"),
 			},
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                        data "bitwarden-sm_secret" "test" {
+                        data "bitwarden-secrets_secret" "test" {
                             id = "` + invalidSecretUUID2 + `"
                         }`,
 				ExpectError: regexp.MustCompile("string attribute not a valid UUID"),
@@ -82,15 +82,15 @@ func TestAccDatasourceSecretVerifySecretData(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: buildProviderConfigFromEnvFile(t) + `
-                            data "bitwarden-sm_secret" "secret" {
+                            data "bitwarden-secrets_secret" "secret" {
                                 id ="` + secretId + `"
                             }`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("data.bitwarden-sm_secret.secret", "id", secretId),
-					resource.TestCheckResourceAttr("data.bitwarden-sm_secret.secret", "value", secretValue),
-					resource.TestCheckResourceAttr("data.bitwarden-sm_secret.secret", "note", secretNote),
-					resource.TestCheckResourceAttr("data.bitwarden-sm_secret.secret", "organization_id", organizationId),
-					resource.TestCheckResourceAttr("data.bitwarden-sm_secret.secret", "project_id", projectId),
+					resource.TestCheckResourceAttr("data.bitwarden-secrets_secret.secret", "id", secretId),
+					resource.TestCheckResourceAttr("data.bitwarden-secrets_secret.secret", "value", secretValue),
+					resource.TestCheckResourceAttr("data.bitwarden-secrets_secret.secret", "note", secretNote),
+					resource.TestCheckResourceAttr("data.bitwarden-secrets_secret.secret", "organization_id", organizationId),
+					resource.TestCheckResourceAttr("data.bitwarden-secrets_secret.secret", "project_id", projectId),
 				),
 			},
 		},

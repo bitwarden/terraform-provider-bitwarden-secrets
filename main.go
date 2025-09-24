@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/bitwarden/terraform-provider-bitwarden-sm/internal/provider"
-	"github.com/bitwarden/terraform-provider-bitwarden-sm/version"
+	"github.com/bitwarden/terraform-provider-bitwarden-secrets/internal/provider"
+	"github.com/bitwarden/terraform-provider-bitwarden-secrets/version"
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
@@ -27,7 +27,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/bitwarden/bitwarden-sm",
+		Address: "registry.terraform.io/bitwarden/bitwarden-secrets",
 		Debug:   debug,
 	}
 

@@ -39,7 +39,7 @@ type BitwardenSecretsManagerProviderModel struct {
 }
 
 func (p *BitwardenSecretsManagerProvider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "bitwarden-sm"
+	resp.TypeName = "bitwarden-secrets"
 	resp.Version = p.version
 }
 
