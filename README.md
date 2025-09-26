@@ -46,13 +46,13 @@ Using this configuration, `go install .` and `go build` should generate statical
 ### Development overrides
 
 In order to tell `terraform` to use the local build of the provider, add a `dev_override`.
-Therefore, create or open the file `~/.terraformrc` and add an entry for the `bitwarden-sm` provider:
+Therefore, create or open the file `~/.terraformrc` and add an entry for the `bitwarden-secrets` provider:
 
 ```text
 provider_installation {
   dev_overrides {
-      "registry.terraform.io/bitwarden/bitwarden-sm" = "/Users/user-name/go/bin"
-      "registry.opentofu.org/bitwarden/bitwarden-sm" = "/Users/user-name/go/bin"
+      "registry.terraform.io/bitwarden/bitwarden-secrets" = "/Users/user-name/go/bin"
+      "registry.opentofu.org/bitwarden/bitwarden-secrets" = "/Users/user-name/go/bin"
   }
 
   # For all other providers, install them directly from their origin provider

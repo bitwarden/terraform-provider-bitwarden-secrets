@@ -11,8 +11,8 @@ go env -w CGO_LDFLAGS="-static -Wl,-unresolved-symbols=ignore-all"
 cat <<EOF >~/.terraformrc
 provider_installation {
   dev_overrides {
-      "registry.terraform.io/bitwarden/bitwarden-sm" = "/go/bin"
-      "registry.opentofu.org/bitwarden/bitwarden-sm" = "/go/bin"
+      "registry.terraform.io/bitwarden/bitwarden-secrets" = "/go/bin"
+      "registry.opentofu.org/bitwarden/bitwarden-secrets" = "/go/bin"
   }
   direct {}
 }
