@@ -51,7 +51,7 @@ jobs:
         id: get-kv-secrets
         uses: bitwarden/gh-actions/get-keyvault-secrets@main
         with:
-          keyvault: gh-terraform-provider
+          keyvault: gh-tf-provider-bw-secret
           secrets: "GPG-PRIVATE-KEY,GPG-PASSPHRASE,GPG-KEY-ID"
 
       - name: Log out from Azure
