@@ -63,6 +63,8 @@ jobs:
 
       - name: Check out repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
       - name: Setup Go
         uses: actions/setup-go@f111f3307d8850f501ac008e886eec1fd1932a34 # v5.3.0
@@ -85,19 +87,25 @@ jobs:
         id: current-version
         run: |
           CURRENT_VERSION=$(grep 'ProviderVersion =' version/version.go | sed -E 's/.*"([0-9]+\.[0-9]+\.[0-9]+(-pre)?)".*/\1/')
-          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Build binary
-        run: make ${{ matrix.build_target }} BINARY_VERSION="_${{ steps.current-version.outputs.version }}"
+        env:
+          VERSION: ${{ steps.current-version.outputs.version }}
+        run: make ${{ matrix.build_target }} BINARY_VERSION="_${VERSION}"
 
       - name: Verify binary
-        run: make ${{ matrix.verify_target }} BINARY_VERSION="_${{ steps.current-version.outputs.version }}"
+        env:
+          VERSION: ${{ steps.current-version.outputs.version }}
+        run: make ${{ matrix.verify_target }} BINARY_VERSION="_${VERSION}"
 
       - name: Prepare release artifacts
         id: prepare-release
+        env:
+          VERSION: ${{ steps.current-version.outputs.version }}
         run: |
           MODULE_NAME=$(grep "^module" go.mod | awk -F'/' '{print $NF}')
-          BINARY_VERSION=$(echo ${{ steps.current-version.outputs.version }})
+          BINARY_VERSION=${VERSION}
           ARCHIVE="${MODULE_NAME}_${BINARY_VERSION}_${{ matrix.os }}_${{ matrix.arch }}.zip"
 
           # Conditionally set the binary name with or without .exe extension
@@ -107,7 +115,7 @@ jobs:
           fi
 
           # Create ZIP archive
-          zip ${ARCHIVE} ${BINARY}
+          zip "${ARCHIVE}" "${BINARY}"
 
           echo "module_name=${MODULE_NAME}" >> "$GITHUB_OUTPUT"
           echo "version=${BINARY_VERSION}" >> "$GITHUB_OUTPUT"

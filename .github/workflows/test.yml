@@ -50,6 +50,8 @@ jobs:
 
       - name: Check out repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
       - name: Setup Go
         uses: actions/setup-go@f111f3307d8850f501ac008e886eec1fd1932a34 # v5.3.0
@@ -95,18 +97,28 @@ jobs:
         uses: bitwarden/gh-actions/azure-logout@main
 
       - name: Create bw client configuration file
+        env:
+          BW_API_URL: ${{ steps.get-kv-secrets.outputs.BW-API-URL }}
+          BW_IDENTITY_API_URL: ${{ steps.get-kv-secrets.outputs.BW-IDENTITY-API-URL }}
+          BW_ORGANIZATION_ID: ${{ steps.get-kv-secrets.outputs.BW-ORGANIZATION-ID-NO-ACCESS }}
+          BW_ACCESS_TOKEN: ${{ steps.get-kv-secrets.outputs.BW-ACCESS-TOKEN }}
+          BW_ACCESS_TOKEN_NO_ACCESS: ${{ steps.get-kv-secrets.outputs.BW-ACCESS-TOKEN-NO-ACCESS }}
         run: |
-          echo 'BW_API_URL="${{ steps.get-kv-secrets.outputs.BW-API-URL }}"' >> .env.local.test
-          echo 'BW_API_URL="${{ steps.get-kv-secrets.outputs.BW-API-URL }}"' >> .env.local.no.access
-          echo 'BW_IDENTITY_API_URL="${{ steps.get-kv-secrets.outputs.BW-IDENTITY-API-URL }}"' >> .env.local.test
-          echo 'BW_IDENTITY_API_URL="${{ steps.get-kv-secrets.outputs.BW-IDENTITY-API-URL }}"' >> .env.local.no.access
-          echo 'BW_ORGANIZATION_ID="${{ steps.get-kv-secrets.outputs.BW-ORGANIZATION-ID-NO-ACCESS }}"' >> .env.local.test
-          echo 'BW_ORGANIZATION_ID="${{ steps.get-kv-secrets.outputs.BW-ORGANIZATION-ID-NO-ACCESS }}"' >> .env.local.no.access
+          {
+            printf 'BW_API_URL="%s"\n' "$BW_API_URL"
+            printf 'BW_IDENTITY_API_URL="%s"\n' "$BW_IDENTITY_API_URL"
+            printf 'BW_ORGANIZATION_ID="%s"\n' "$BW_ORGANIZATION_ID"
+            printf 'BW_ACCESS_TOKEN="%s"\n' "$BW_ACCESS_TOKEN"
+            printf 'BW_STATE_FILE=".bw-state-qa"\n'
+          } >> .env.local.test
 
-          echo 'BW_ACCESS_TOKEN="${{ steps.get-kv-secrets.outputs.BW-ACCESS-TOKEN }}"' >> .env.local.test
-          echo 'BW_ACCESS_TOKEN="${{ steps.get-kv-secrets.outputs.BW-ACCESS-TOKEN-NO-ACCESS }}"' >> .env.local.no.access
-          echo 'BW_STATE_FILE=".bw-state-qa"' >> .env.local.test
-          echo 'BW_STATE_FILE=".bw-state-qa-no-access"' >> .env.local.no.access
+          {
+            printf 'BW_API_URL="%s"\n' "$BW_API_URL"
+            printf 'BW_IDENTITY_API_URL="%s"\n' "$BW_IDENTITY_API_URL"
+            printf 'BW_ORGANIZATION_ID="%s"\n' "$BW_ORGANIZATION_ID"
+            printf 'BW_ACCESS_TOKEN="%s"\n' "$BW_ACCESS_TOKEN_NO_ACCESS"
+            printf 'BW_STATE_FILE=".bw-state-qa-no-access"\n'
+          } >> .env.local.no.access
 
       - name: Run acceptance tests
         run: |
