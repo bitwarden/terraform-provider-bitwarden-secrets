@@ -15,12 +15,14 @@ jobs:
 
       - name: Check out repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
       - name: Get current version
         id: current-version
         run: |
           CURRENT_VERSION=$(grep 'ProviderVersion =' version/version.go | sed -E 's/.*"([0-9]+\.[0-9]+\.[0-9]+(-pre)?)".*/\1/')
-          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Download Artifacts
         uses: bitwarden/gh-actions/download-artifacts@main
@@ -33,12 +35,14 @@ jobs:
 
       - name: Generate Checksum File
         id: checksum
+        env:
+          VERSION: ${{ steps.current-version.outputs.version }}
         run: |
           MODULE_NAME=$(grep "^module" go.mod | awk -F'/' '{print $NF}')
-          CHECKSUM_FILE="${MODULE_NAME}_${{ steps.current-version.outputs.version }}_SHA256SUMS"
+          CHECKSUM_FILE="${MODULE_NAME}_${VERSION}_SHA256SUMS"
           shasum -a 256 artifacts/*.zip | sed 's|artifacts/||' > "$CHECKSUM_FILE"
-          echo "module_name=$MODULE_NAME" >> $GITHUB_OUTPUT
-          echo "checksum_file=$CHECKSUM_FILE" >> $GITHUB_OUTPUT
+          echo "module_name=$MODULE_NAME" >> "$GITHUB_OUTPUT"
+          echo "checksum_file=$CHECKSUM_FILE" >> "$GITHUB_OUTPUT"
 
       - name: Log in to Azure
         uses: bitwarden/gh-actions/azure-login@main
@@ -65,15 +69,22 @@ jobs:
 
       - name: Prepare Manifest File
         id: manifest
+        env:
+          MODULE_NAME: ${{ steps.checksum.outputs.module_name }}
+          VERSION: ${{ steps.current-version.outputs.version }}
+          CHECKSUM_FILE: ${{ steps.checksum.outputs.checksum_file }}
         run: |
-          MANIFEST_FILE="${{ steps.checksum.outputs.module_name}}_${{ steps.current-version.outputs.version }}_manifest.json"
-          cp terraform-registry-manifest.json $MANIFEST_FILE
-          shasum -a 256 $MANIFEST_FILE >> ${{ steps.checksum.outputs.checksum_file }}
-          echo "manifest_file=$MANIFEST_FILE" >> $GITHUB_OUTPUT
+          MANIFEST_FILE="${MODULE_NAME}_${VERSION}_manifest.json"
+          cp terraform-registry-manifest.json "$MANIFEST_FILE"
+          shasum -a 256 "$MANIFEST_FILE" >> "$CHECKSUM_FILE"
+          echo "manifest_file=$MANIFEST_FILE" >> "$GITHUB_OUTPUT"
 
       - name: Sign Checksum File
+        env:
+          GPG_KEY_ID: ${{ steps.get-kv-secrets.outputs.GPG-KEY-ID }}
+          CHECKSUM_FILE: ${{ steps.checksum.outputs.checksum_file }}
         run: |
-          gpg --detach-sign --local-user ${{ steps.get-kv-secrets.outputs.GPG-KEY-ID }} --output ${{ steps.checksum.outputs.checksum_file }}.sig ${{ steps.checksum.outputs.checksum_file }}
+          gpg --detach-sign --local-user "${GPG_KEY_ID}" --output "${CHECKSUM_FILE}.sig" "${CHECKSUM_FILE}"
 
       - name: Release
         uses: ncipollo/release-action@cdcc88a9acf3ca41c16c37bb7d21b9ad48560d87 # v1.15.0
