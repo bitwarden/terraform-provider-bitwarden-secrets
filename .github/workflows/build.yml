@@ -102,10 +102,9 @@ jobs:
       - name: Prepare release artifacts
         id: prepare-release
         env:
-          VERSION: ${{ steps.current-version.outputs.version }}
+          BINARY_VERSION: ${{ steps.current-version.outputs.version }}
         run: |
           MODULE_NAME=$(grep "^module" go.mod | awk -F'/' '{print $NF}')
-          BINARY_VERSION=${VERSION}
           ARCHIVE="${MODULE_NAME}_${BINARY_VERSION}_${{ matrix.os }}_${{ matrix.arch }}.zip"
 
           # Conditionally set the binary name with or without .exe extension
