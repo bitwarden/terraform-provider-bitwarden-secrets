@@ -36,3 +36,4 @@ pkg/
 /_test/
 .env.*
 .bw-provider-state*
+.bw-state*
