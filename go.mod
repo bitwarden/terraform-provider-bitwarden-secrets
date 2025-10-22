@@ -6,14 +6,14 @@ go 1.23.5
 require (
 	github.com/bitwarden/sdk-go v1.0.2
 	github.com/google/uuid v1.6.0
-	github.com/hashicorp/terraform-plugin-docs v0.19.4
-	github.com/hashicorp/terraform-plugin-framework v1.13.0
-	github.com/hashicorp/terraform-plugin-framework-validators v0.16.0
-	github.com/hashicorp/terraform-plugin-go v0.26.0
+	github.com/hashicorp/terraform-plugin-docs v0.24.0
+	github.com/hashicorp/terraform-plugin-framework v1.16.1
+	github.com/hashicorp/terraform-plugin-framework-validators v0.19.0
+	github.com/hashicorp/terraform-plugin-go v0.29.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
-	github.com/hashicorp/terraform-plugin-testing v1.11.0
+	github.com/hashicorp/terraform-plugin-testing v1.13.3
 	github.com/joho/godotenv v1.5.1
-	golang.org/x/net v0.38.0
+	golang.org/x/net v0.46.0
 )
 
 require (
