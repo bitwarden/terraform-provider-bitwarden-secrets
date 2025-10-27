@@ -3,7 +3,7 @@ module github.com/bitwarden/terraform-provider-bitwarden-secrets
 // A Go version constraint is configured in renovate.json
 go 1.24.0
 
-toolchain go1.24.9
+toolchain go1.25.3
 
 require (
 	github.com/bitwarden/sdk-go v1.0.2
@@ -15,7 +15,7 @@ require (
 	github.com/hashicorp/terraform-plugin-log v0.9.0
 	github.com/hashicorp/terraform-plugin-testing v1.13.3
 	github.com/joho/godotenv v1.5.1
-	golang.org/x/net v0.44.0
+	golang.org/x/net v0.46.0
 )
 
 require (
