@@ -1,7 +1,7 @@
 module github.com/bitwarden/terraform-provider-bitwarden-secrets
 
 // A Go version constraint is configured in renovate.json
-go 1.24.0
+go 1.25.0
 
 toolchain go1.25.7
 
