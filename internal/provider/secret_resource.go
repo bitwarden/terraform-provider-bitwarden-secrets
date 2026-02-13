@@ -2,7 +2,8 @@ package provider
 
 import (
 	"fmt"
-	"github.com/bitwarden/sdk-go"
+
+	"github.com/bitwarden/sdk-go/v2"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
