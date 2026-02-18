@@ -6,7 +6,7 @@ issues:
   max-same-issues: 0
 
 linters:
-  disable-all: true
+  default: none
   enable:
     - durationcheck
     - errcheck
