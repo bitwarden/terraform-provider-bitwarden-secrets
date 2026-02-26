@@ -1,10 +1,11 @@
 package provider
 
 import (
+	"context"
 	"fmt"
+
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"golang.org/x/net/context"
 )
 
 var _ validator.String = &stringUUIDValidator{}
