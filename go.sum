@@ -25,6 +25,7 @@ github.com/bgentry/speakeasy v0.1.0 h1:ByYyxL9InA1OWqxJqqp2A5pYHUrCiAL6K3J+LKSsQ
 github.com/bgentry/speakeasy v0.1.0/go.mod h1:+zsyZBPWlz7T6j88CTgSN5bM796AkVf0kBD4zp0CCIs=
 github.com/bitwarden/sdk-go v1.0.2 h1:krk5et4sfksLDDcrYHcs8f3jL/TGcQ1EShw4CG21JSI=
 github.com/bitwarden/sdk-go v1.0.2/go.mod h1:RuYh+gqffp3h8wNUVWz1bvp2Pho10AFz+WIlI26iWY4=
+github.com/bitwarden/sdk-go/v2 v2.0.0/go.mod h1:6Sfb4IdZ9tnggeFj8Ty4MLkWUyC2pNlFUoAZE0Dapfw=
 github.com/bmatcuk/doublestar/v4 v4.9.1 h1:X8jg9rRZmJd4yRy7ZeNDRnM+T3ZfHv15JiBJ/avrEXE=
 github.com/bmatcuk/doublestar/v4 v4.9.1/go.mod h1:xBQ8jztBU6kakFMg+8WGxn0c6z1fTSPVIjEY1Wr7jzc=
 github.com/bufbuild/protocompile v0.14.1 h1:iA73zAf/fyljNjQKwYzUHD6AD4R8KMasmwa/FBatYVw=
