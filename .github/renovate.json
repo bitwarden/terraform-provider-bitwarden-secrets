@@ -3,7 +3,7 @@
   "extends": ["github>bitwarden/renovate-config"],
   "enabledManagers": ["gomod", "github-actions"],
   "constraints": {
-    "go": "1.24"
+    "go": "1.25"
   },
   "packageRules": [
     {
