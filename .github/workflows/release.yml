@@ -92,7 +92,7 @@ jobs:
         uses: ncipollo/release-action@cdcc88a9acf3ca41c16c37bb7d21b9ad48560d87 # v1.15.0
         with:
           name: v${{ steps.current-version.outputs.version }}
-          commit: ${{ github.sha }}
+          commit: 39ef40d11e04b459a970a17d1c4727a41fa4b1d8 #manually specify commit sha
           tag: v${{ steps.current-version.outputs.version }}
           draft: true #use draft
           generateReleaseNotes: true
