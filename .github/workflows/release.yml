@@ -16,6 +16,7 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          ref: 39ef40d11e04b459a970a17d1c4727a41fa4b1d8 #manually specify commit sha
           persist-credentials: false
 
       - name: Get current version
@@ -28,8 +29,9 @@ jobs:
         uses: bitwarden/gh-actions/download-artifacts@main
         with:
           workflow: build.yml
-          workflow_conclusion: success
-          branch: main
+          # workflow_conclusion: success
+          # branch: main
+          run_id: 23924020303              #manually specify build run
           path: artifacts
           skip_unpack: false
 
@@ -92,6 +94,7 @@ jobs:
           name: v${{ steps.current-version.outputs.version }}
           commit: ${{ github.sha }}
           tag: v${{ steps.current-version.outputs.version }}
+          draft: true #use draft
           generateReleaseNotes: true
           artifacts: "artifacts/*.zip,
               ${{ steps.manifest.outputs.manifest_file }},
