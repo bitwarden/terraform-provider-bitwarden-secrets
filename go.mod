@@ -6,7 +6,7 @@ go 1.25.0
 toolchain go1.25.7
 
 require (
-	github.com/bitwarden/sdk-go/v2 v2.0.0
+	github.com/bitwarden/sdk-go/v2 v2.1.0
 	github.com/google/uuid v1.6.0
 	github.com/hashicorp/terraform-plugin-docs v0.24.0
 	github.com/hashicorp/terraform-plugin-framework v1.17.0
