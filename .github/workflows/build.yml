@@ -40,15 +40,16 @@ jobs:
             dependencies: musl-tools
           - os: darwin
             arch: amd64
-            # According to linter: label "macos-14" is unknown
-            runner: macos-14
+            runner: macos-26
             build_target: build-darwin-amd64
             verify_target: verify-binary-darwin-amd64
+            deployment_target: "14.0"
           - os: darwin
             arch: arm64
-            runner: macos-14
+            runner: macos-26
             build_target: build-darwin-arm64
             verify_target: verify-binary-darwin-arm64
+            deployment_target: "14.0"
           - os: windows
             arch: amd64
             runner: ubuntu-22.04
@@ -92,6 +93,7 @@ jobs:
       - name: Build binary
         env:
           VERSION: ${{ steps.current-version.outputs.version }}
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
         run: make ${{ matrix.build_target }} BINARY_VERSION="_${VERSION}"
 
       - name: Verify binary
